@@ -130,7 +130,7 @@ export const ExperienceSection = () => {
               @ {job.company}
             </Typography>
 
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
               {job.period}
             </Typography>
 
@@ -138,7 +138,7 @@ export const ExperienceSection = () => {
               {job.responsibilities.map((responsibility, idx) => (
                 <ListItem
                   key={idx}
-                  alignItems="flex-start"
+                  alignItems="center"
                   sx={{
                     px: 0,
                     py: 1.5,
