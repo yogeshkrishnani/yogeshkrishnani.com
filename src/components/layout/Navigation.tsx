@@ -158,7 +158,7 @@ export const Navigation = () => {
                 variant="outlined"
                 color="primary"
                 component="a"
-                href="/Yogesh_Krishnani_-_Senior_Software_Engineer.pdf"
+                href="/Yogesh_Krishnani_Resume.pdf"
                 target="_blank"
                 sx={{ ml: 2 }}
               >

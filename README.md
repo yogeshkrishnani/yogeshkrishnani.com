@@ -1,54 +1,34 @@
-# React + TypeScript + Vite
+# Yogesh Krishnani - Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the source code for my personal portfolio website, showcasing my experience and skills as a Senior Software Engineer.
 
-Currently, two official plugins are available:
+## 🚀 Live Site
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Visit [yogeshkrishnani.com](https://yogeshkrishnani.com) to see my portfolio.
 
-## Expanding the ESLint configuration
+## 💼 About Me
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+I'm a Senior Software Engineer specializing in building user-friendly enterprise applications that solve real-world problems. My expertise includes:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- Establishing UI standards and optimizing frontend infrastructure
+- Building scalable and maintainable platforms
+- Ensuring accessibility compliance (WCAG & Section 508)
+- Implementing internationalization and localization
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Technical Skills Showcased
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Frontend Development**: React, TypeScript, JavaScript
+- **UI Frameworks**: Material UI
+- **Performance Optimization**: Frontend infrastructure for speed and stability
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 📞 Contact
+
+Feel free to reach out for opportunities or questions:
+
+- Email: yogesh.h.krishnani@gmail.com
+- LinkedIn: [linkedin.com/in/yogeshkrishnani](https://linkedin.com/in/yogeshkrishnani)
+- GitHub: [github.com/yogeshkrishnani](https://github.com/yogeshkrishnani)
+
+---
+
+© 2025 Yogesh Krishnani. All rights reserved.
