@@ -96,7 +96,7 @@ export const IntroSection = () => {
               mb: 3,
             }}
           >
-            I build exceptional digital experiences.
+            I build software for the agentic era.
           </Typography>
 
           <Typography
@@ -112,13 +112,13 @@ export const IntroSection = () => {
               fontSize: '1.1rem',
             }}
           >
-            I'm a Senior Software Engineer specializing in building user-friendly enterprise
-            applications that solve real-world problems. Currently, I'm focused on creating scalable
-            and accessible frontend experiences at{' '}
+            I'm a full-stack engineer at{' '}
             <Box component="span" sx={{ color: 'primary.main', fontWeight: 500 }}>
               Alation
             </Box>
-            .
+            , building AI-native software that helps enterprises govern and understand their data.
+            Shipping across React, TypeScript, Python, Go, and CI/CD — with AI as a core part of
+            how I work.
           </Typography>
 
           <Stack

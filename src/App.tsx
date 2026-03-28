@@ -16,6 +16,7 @@ import { AboutSection } from './components/sections/AboutSection';
 import { ContactSection } from './components/sections/ContactSection';
 import { ExperienceSection } from './components/sections/ExperienceSection';
 import { IntroSection } from './components/sections/IntroSection';
+import { ProjectsSection } from './components/sections/ProjectsSection';
 import { SkillsSection } from './components/sections/SkillsSection';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { createAppTheme } from './theme/theme';
@@ -62,6 +63,7 @@ const AppContent = () => {
             <AboutSection />
             <ExperienceSection />
             <SkillsSection />
+            <ProjectsSection />
             <ContactSection />
           </Container>
           <Footer />

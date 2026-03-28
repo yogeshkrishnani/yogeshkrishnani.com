@@ -2,7 +2,7 @@ import { createContext, useContext, ReactNode, useState, useEffect, useMemo } fr
 
 import { getMostVisibleSection } from '@/utils/scrollUtils.ts';
 
-export type SectionId = 'intro' | 'about' | 'experience' | 'skills' | 'contact';
+export type SectionId = 'intro' | 'about' | 'experience' | 'skills' | 'projects' | 'contact';
 
 interface SectionsContextType {
   activeSection: SectionId;
@@ -15,7 +15,7 @@ const SectionsContext = createContext<SectionsContextType | undefined>(undefined
 export const SectionsProvider = ({ children }: { children: ReactNode }) => {
   const [activeSection, setActiveSection] = useState<SectionId>('intro');
   const sections: SectionId[] = useMemo(
-    () => ['intro', 'about', 'experience', 'skills', 'contact'],
+    () => ['intro', 'about', 'experience', 'skills', 'projects', 'contact'],
     []
   );
 

@@ -4,8 +4,12 @@ import { motion } from 'framer-motion';
 
 const skillCategories = [
   {
-    title: 'Frontend Development',
-    skills: ['React', 'Angular', 'JavaScript', 'TypeScript', 'HTML5', 'CSS3', 'SASS/LESS'],
+    title: 'Languages & Frameworks',
+    skills: ['React', 'TypeScript', 'JavaScript', 'Python', 'Go', 'Angular', 'HTML5', 'CSS3'],
+  },
+  {
+    title: 'AI Tools & Workflow',
+    skills: ['Claude', 'Cursor', 'GitHub Copilot', 'GitHub Actions', 'AI-Assisted Development'],
   },
   {
     title: 'UI Frameworks & Libraries',
@@ -35,18 +39,9 @@ const skillCategories = [
   },
   {
     title: 'Tools & Platforms',
-    skills: ['Git', 'JIRA', 'Figma', 'IBM MobileFirst', 'CI/CD', 'Webpack', 'npm/yarn'],
+    skills: ['Git', 'JIRA', 'Figma', 'CI/CD', 'Webpack', 'npm/yarn'],
   },
-  {
-    title: 'Soft Skills',
-    skills: [
-      'Team Leadership',
-      'Client Communication',
-      'Mentoring',
-      'Requirements Analysis',
-      'Technical Documentation',
-    ],
-  },
+
 ];
 
 export const SkillsSection = () => {

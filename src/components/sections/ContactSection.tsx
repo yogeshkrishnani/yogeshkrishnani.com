@@ -44,9 +44,9 @@ export const ContactSection = () => {
         <Grid container spacing={4}>
           <Grid size={{ xs: 12, md: 6 }}>
             <Typography paragraph sx={{ fontSize: '1.1rem' }}>
-              I'm currently open to new opportunities where I can leverage my skills in frontend
-              development and UI architecture. Whether you have a question or just want to say hi,
-              I'll try my best to get back to you!
+              I'm open to connecting with engineers, product folks, and teams building at the
+              intersection of AI and enterprise software. Whether you have a question or just want
+              to say hi, I'll try my best to get back to you!
             </Typography>
 
             <Button

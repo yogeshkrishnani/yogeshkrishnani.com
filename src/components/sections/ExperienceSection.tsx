@@ -170,6 +170,8 @@ const experiences = [
     title: 'Senior Software Engineer',
     period: 'July 2021 — Present',
     responsibilities: [
+      'Contributed to the launch of Curation Automation (GA, 2026) — AI agents that automate metadata enrichment across thousands of data assets, replacing manual stewardship at scale and enabling continuous compliance.',
+      'Expanded scope beyond frontend to ship Python, Go, and CI/CD pipelines, leveraging AI-assisted development (Claude, Cursor, Copilot) to contribute reliably across the full stack.',
       'Established and enforced UI standards & best practices to build a scalable, maintainable platform, ensuring consistent UX across features.',
       'Optimized front-end infrastructure for speed, stability, and delivery, leveraging TypeScript, Nx Monorepo, React, Material UI, and Vite.',
       'Ensured WCAG & Section 508 compliance, improving accessibility and usability, leading to a better user experience.',

@@ -37,28 +37,27 @@ export const AboutSection = () => {
         <Grid container spacing={4}>
           <Grid size={{ xs: 12, md: 7 }}>
             <Typography paragraph>
-              Hello! I'm Yogesh, a Senior Software Engineer with a passion for crafting intuitive,
-              high-performing front-end experiences. My journey in software development started back
-              in 2014 when I began working with enterprise clients at Streebo.
+              Hello! I'm Yogesh, a full-stack engineer building AI-native products at Alation —
+              where the goal is making enterprise data trustworthy and useful, for both humans and
+              AI systems.
             </Typography>
 
             <Typography paragraph>
-              Fast-forward to today, and I've had the privilege of working at a BI & data analytics
-              company, a digital transformation agency, and now at Alation where I focus on building
-              scalable, user-friendly enterprise applications that solve real-world problems and
-              make a tangible difference.
+              I started as a frontend engineer in 2014 and have since expanded across the stack.
+              Today I work with React, TypeScript, Python, Go, and CI/CD — using AI tools (Claude,
+              Cursor, Copilot) daily to move faster and ship more reliably across the entire
+              codebase.
             </Typography>
 
             <Typography paragraph>
-              My main focus these days is establishing UI standards and optimizing infrastructure to
-              ensure scalable and maintainable platforms that deliver consistent and engaging user
-              experiences. I'm also a strong advocate for accessibility, committed to improving
-              usability through compliance with WCAG and Section 508 standards.
+              Outside of work, I build things that matter to me: a vaccine slot notifier used by
+              100,000+ people during India's COVID rush, and a WhatsApp stock analysis bot in Hindi
+              and Gujarati — because my dad understands markets but not English financial jargon.
             </Typography>
 
             <Typography>
-              When I'm not at the computer, I'm usually playing badminton, exploring new
-              technologies, or spending time with family.
+              When I'm not at the computer, I'm usually playing badminton or spending time with
+              family.
             </Typography>
           </Grid>
 
@@ -81,19 +80,19 @@ export const AboutSection = () => {
                   Based in Ahmedabad, India
                 </Typography>
                 <Typography component="li" sx={{ mb: 1 }}>
-                  10+ years of experience in frontend development
+                  12+ years of engineering experience
                 </Typography>
                 <Typography component="li" sx={{ mb: 1 }}>
-                  Specialized in React, Angular, and TypeScript
+                  Full-stack: React, TypeScript, Python, Go
                 </Typography>
                 <Typography component="li" sx={{ mb: 1 }}>
-                  Expert in accessibility and UI standards
+                  AI-native workflow: Claude, Cursor, Copilot
                 </Typography>
                 <Typography component="li" sx={{ mb: 1 }}>
-                  Experience working with global clients across multiple industries
+                  Building data governance products at Alation
                 </Typography>
                 <Typography component="li">
-                  Master of Computer Applications (MCA) from Gujarat University
+                  MCA from Gujarat University
                 </Typography>
               </Box>
             </Paper>
