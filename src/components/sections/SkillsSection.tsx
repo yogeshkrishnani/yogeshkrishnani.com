@@ -1,125 +1,47 @@
-import { Box, Typography, Chip, Paper } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import { motion } from 'framer-motion';
-
-const skillCategories = [
-  {
-    title: 'Languages & Frameworks',
-    skills: ['React', 'TypeScript', 'JavaScript', 'Python', 'Go', 'Angular', 'HTML5', 'CSS3'],
-  },
-  {
-    title: 'AI Tools & Workflow',
-    skills: ['Claude', 'Cursor', 'GitHub Copilot', 'GitHub Actions', 'AI-Assisted Development'],
-  },
-  {
-    title: 'UI Frameworks & Libraries',
-    skills: ['Material UI', 'Angular Material', 'Bootstrap', 'Tailwind CSS', 'Nx Monorepo', 'Vite'],
-  },
-  {
-    title: 'Quality Assurance',
-    skills: [
-      'Playwright',
-      'Selenium',
-      'Jasmine',
-      'Jest',
-      'Testing Library',
-      'End-to-End Testing',
-      'Unit Testing',
-    ],
-  },
-  {
-    title: 'Specializations',
-    skills: [
-      'Accessibility (WCAG & Section 508)',
-      'UI Standards',
-      'Frontend Infrastructure',
-      'Internationalization (i18n)',
-      'Localization (l10n)',
-    ],
-  },
-  {
-    title: 'Tools & Platforms',
-    skills: ['Git', 'JIRA', 'Figma', 'CI/CD', 'Webpack', 'npm/yarn'],
-  },
-
-];
+import { SectionHeading } from '@/components/common/SectionHeading';
+import { skillCategories, skillsIntro } from '@/data/skills';
 
 export const SkillsSection = () => {
   return (
-    <Box
+    <section
       id="skills"
-      component="section"
-      sx={{
-        py: 10,
-        scrollMarginTop: '80px', // Offset for sticky header
-        maxWidth: { xs: '100%', md: '85%' },
-        mx: 'auto',
-      }}
+      className="scroll-mt-20 py-24 md:py-32 max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.5 }}
-      >
-        <Typography variant="h3" component="h2" sx={{ mb: 1 }}>
-          Skills
-        </Typography>
+      <SectionHeading title="Skills" />
 
-        <Box
-          sx={{
-            width: '60px',
-            height: '4px',
-            backgroundColor: 'primary.main',
-            mb: 4,
-          }}
-        />
+      <p className="text-[--color-text-secondary] mt-4 mb-8">{skillsIntro}</p>
 
-        <Typography sx={{ mb: 4 }}>
-          Here are some technologies and skills I've been working with recently:
-        </Typography>
-
-        <Grid container spacing={3}>
-          {skillCategories.map(category => (
-            <Grid key={category.title} size={{ xs: 12, sm: 6, md: 4 }}>
-              <Paper
-                elevation={0}
-                sx={{
-                  p: 3,
-                  height: '100%',
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                <Typography variant="h6" gutterBottom color="primary">
-                  {category.title}
-                </Typography>
-
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {category.skills.map(skill => (
-                    <Chip
-                      key={skill}
-                      label={skill}
-                      variant="outlined"
-                      size="medium"
-                      sx={{
-                        my: 0.5,
-                        borderRadius: '4px',
-                        backgroundColor: 'background.default',
-                        '&:hover': {
-                          backgroundColor: 'action.hover',
-                        },
-                      }}
-                    />
-                  ))}
-                </Box>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
-      </motion.div>
-    </Box>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {skillCategories.map(category => (
+          <div
+            key={category.title}
+            className="rounded-2xl p-6 hover:shadow-lg transition-shadow duration-300"
+            style={{
+              backgroundColor: 'var(--color-bg-paper)',
+              border: '1px solid var(--color-divider)',
+            }}
+          >
+            <h3 className="text-sm font-semibold text-[--color-accent-primary] uppercase tracking-wider mb-4">
+              {category.title}
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {category.skills.map(skill => (
+                <span
+                  key={skill}
+                  className="px-3 py-1.5 text-xs font-medium rounded-lg cursor-default"
+                  style={{
+                    backgroundColor:
+                      'color-mix(in srgb, var(--color-accent-primary) 10%, transparent)',
+                    color: 'var(--color-accent-primary)',
+                  }}
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 };

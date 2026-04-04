@@ -1,126 +1,103 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Box, Typography, Paper, Chip, Link } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 
-const projects = [
-  {
-    title: 'Vaccine Slot Notifier',
-    description:
-      'Built during India\'s COVID-19 vaccination rush when 18+ slots were impossible to find. The tool monitors availability across districts and beeps as soon as a slot opens — giving users a real-time edge over the second-long booking windows. Grew to 100,000+ sessions organically, with volunteers contributing features.',
-    impact: '100,000+ sessions',
-    tech: ['JavaScript', 'REST APIs', 'Web Notifications'],
-    link: 'https://vaccine-notifier-4208a.web.app/',
+import { SectionHeading } from '@/components/common/SectionHeading';
+import { projects, projectsIntro } from '@/data/projects';
+import { Project } from '@/data/projects';
+
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.2 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 60 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
   },
-  {
-    title: 'WhatsApp Stock Analysis Bot',
-    description:
-      'My dad understands Indian markets well but English financial reports were a barrier. So I built him a WhatsApp bot: send a stock name, get back fundamental analysis in Hindi, Gujarati, or English. Expanded to ~100 users helping retail investors get clarity without needing English fluency.',
-    impact: '~100 active users',
-    tech: ['WhatsApp API', 'AI', 'Python', 'Financial Data APIs'],
-    link: 'https://wa.me/917405423161',
-  },
-];
+};
+
+const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
+  return (
+    <motion.a
+      href={project.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block relative rounded-2xl p-8 no-underline overflow-hidden transition-all duration-300 hover:shadow-lg"
+      style={{
+        background: 'var(--color-bg-paper)',
+        border: '1px solid var(--color-divider)',
+      }}
+      whileHover={{ y: -4 }}
+    >
+      <div className="relative z-10">
+        {/* Top row: number + link icon */}
+        <div className="flex justify-between items-start mb-6">
+          <span className="text-6xl font-bold text-[--color-accent-primary]/20 leading-none">
+            0{index + 1}
+          </span>
+          <div className="w-10 h-10 rounded-full border border-[--color-divider] flex items-center justify-center group-hover:border-[--color-accent-primary] group-hover:scale-110 transition-all duration-300">
+            <ArrowUpRight
+              size={18}
+              className="text-[--color-text-secondary] group-hover:text-[--color-accent-primary] transition-colors duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
+          </div>
+        </div>
+
+        {/* Title + impact */}
+        <h3 className="text-2xl font-bold text-[--color-text-primary] mb-2">{project.title}</h3>
+        <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-gradient-to-r from-[--color-accent-primary] to-[--color-accent-secondary] text-white mb-4">
+          {project.impact}
+        </span>
+
+        {/* Description */}
+        <p className="text-[--color-text-secondary] leading-relaxed mb-6 text-sm">
+          {project.description}
+        </p>
+
+        {/* Tech tags */}
+        <div className="flex flex-wrap gap-2">
+          {project.tech.map(t => (
+            <span
+              key={t}
+              className="text-xs px-3 py-1.5 rounded-full border border-[--color-divider] text-[--color-text-secondary] group-hover:border-[--color-accent-primary]/30 group-hover:text-[--color-accent-primary] transition-all duration-300"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
+    </motion.a>
+  );
+};
 
 export const ProjectsSection = () => {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
-    <Box
+    <section
       id="projects"
-      component="section"
-      sx={{
-        py: 10,
-        scrollMarginTop: '80px',
-        maxWidth: { xs: '100%', md: '85%' },
-        mx: 'auto',
-      }}
+      className="scroll-mt-20 py-24 md:py-32 max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12"
     >
+      <SectionHeading title="Projects" />
+
+      <p className="text-[--color-text-secondary] mt-4 mb-10 max-w-lg">{projectsIntro}</p>
+
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        variants={prefersReducedMotion ? undefined : container}
+        initial={prefersReducedMotion ? false : 'hidden'}
+        whileInView={prefersReducedMotion ? undefined : 'visible'}
         viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.5 }}
       >
-        <Typography variant="h3" component="h2" sx={{ mb: 1 }}>
-          Projects
-        </Typography>
-
-        <Box
-          sx={{
-            width: '60px',
-            height: '4px',
-            backgroundColor: 'primary.main',
-            mb: 4,
-          }}
-        />
-
-        <Typography sx={{ mb: 4 }}>
-          Things I built outside of work — for people who needed them.
-        </Typography>
-
-        <Grid container spacing={3}>
-          {projects.map(project => (
-            <Grid key={project.title} size={{ xs: 12, md: 6 }}>
-              <Paper
-                elevation={0}
-                sx={{
-                  p: 3,
-                  height: '100%',
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  borderRadius: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  transition: 'border-color 0.2s ease',
-                  '&:hover': {
-                    borderColor: 'primary.main',
-                  },
-                }}
-              >
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.5 }}>
-                  <Typography variant="h5" sx={{ fontWeight: 600 }}>
-                    {project.title}
-                  </Typography>
-                  <Link
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' }, ml: 1 }}
-                  >
-                    <OpenInNewIcon fontSize="small" />
-                  </Link>
-                </Box>
-
-                <Chip
-                  label={project.impact}
-                  size="small"
-                  color="primary"
-                  variant="outlined"
-                  sx={{ alignSelf: 'flex-start', mb: 2, borderRadius: '4px' }}
-                />
-
-                <Typography variant="body1" sx={{ lineHeight: 1.7, flexGrow: 1, mb: 2.5 }}>
-                  {project.description}
-                </Typography>
-
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {project.tech.map(t => (
-                    <Chip
-                      key={t}
-                      label={t}
-                      variant="outlined"
-                      size="small"
-                      sx={{
-                        borderRadius: '4px',
-                        backgroundColor: 'background.default',
-                      }}
-                    />
-                  ))}
-                </Box>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
+        {projects.map((project, index) => (
+          <motion.div key={project.title} variants={prefersReducedMotion ? undefined : item}>
+            <ProjectCard project={project} index={index} />
+          </motion.div>
+        ))}
       </motion.div>
-    </Box>
+    </section>
   );
 };
