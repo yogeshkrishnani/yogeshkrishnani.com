@@ -1,14 +1,7 @@
-import { useEffect } from 'react';
-
-import {
-  ThemeProvider as MuiThemeProvider,
-  CssBaseline,
-  Box,
-  Container,
-  Toolbar,
-} from '@mui/material';
+import { LazyMotion, domAnimation } from 'framer-motion';
 
 import { BackToTop } from './components/common/BackToTop';
+import { ScrollProgress } from './components/common/ScrollProgress';
 import { Footer } from './components/layout/Footer';
 import { Navigation } from './components/layout/Navigation';
 import { SectionsProvider } from './components/layout/Sections';
@@ -18,66 +11,28 @@ import { ExperienceSection } from './components/sections/ExperienceSection';
 import { IntroSection } from './components/sections/IntroSection';
 import { ProjectsSection } from './components/sections/ProjectsSection';
 import { SkillsSection } from './components/sections/SkillsSection';
-import { ThemeProvider, useTheme } from './context/ThemeContext';
-import { createAppTheme } from './theme/theme';
+import { ThemeProvider } from './context/ThemeContext';
 
-const AppContent = () => {
-  const { mode } = useTheme();
-  const theme = createAppTheme(mode);
-
-  // Update HTML background color when theme changes
-  useEffect(() => {
-    document.documentElement.style.backgroundColor = mode === 'light' ? '#f5f5f5' : '#121212';
-    document.body.style.backgroundColor = mode === 'light' ? '#f5f5f5' : '#121212';
-  }, [mode]);
-
-  return (
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline />
+export const App = () => (
+  <ThemeProvider>
+    <LazyMotion features={domAnimation}>
       <SectionsProvider>
-        <Box
-          sx={{
-            backgroundColor: 'background.default',
-            minHeight: '100vh',
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
+        <ScrollProgress />
+        <div className="min-h-screen w-full flex flex-col relative overflow-hidden bg-[--color-bg-default]">
           <Navigation />
-          <Toolbar /> {/* Spacer for fixed navbar */}
-          <Container
-            maxWidth="xl"
-            component="main"
-            sx={{
-              flexGrow: 1,
-              px: { xs: 4, sm: 6, md: 8 },
-              mx: 'auto',
-              width: '100%',
-              maxWidth: '1400px', // Custom max width
-            }}
-          >
+          <div className="h-16" />
+          <main className="flex-grow">
             <IntroSection />
             <AboutSection />
             <ExperienceSection />
             <SkillsSection />
             <ProjectsSection />
             <ContactSection />
-          </Container>
+          </main>
           <Footer />
           <BackToTop />
-        </Box>
+        </div>
       </SectionsProvider>
-    </MuiThemeProvider>
-  );
-};
-
-export const App = () => {
-  return (
-    <ThemeProvider>
-      <AppContent />
-    </ThemeProvider>
-  );
-};
+    </LazyMotion>
+  </ThemeProvider>
+);

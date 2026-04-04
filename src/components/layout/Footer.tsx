@@ -1,79 +1,51 @@
-import EmailIcon from '@mui/icons-material/Email';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import { Box, Container, Typography, Stack, IconButton, Divider } from '@mui/material';
+import { Mail } from 'lucide-react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
+
+import { personalInfo } from '@/data/personal';
 
 export const Footer = () => {
   return (
-    <Box
-      component="footer"
-      sx={{
-        py: 4,
-        borderTop: '1px solid',
-        borderColor: 'divider',
-      }}
-    >
-      <Container maxWidth={false}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Typography variant="subtitle2" color="text.secondary" sx={{ mb: { xs: 2, md: 0 } }}>
-            Designed & Built by Yogesh Krishnani
-          </Typography>
+    <footer className="py-8 border-t border-[--color-divider]">
+      <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12 text-center">
+        {/* Social icons */}
+        <div className="flex justify-center gap-4 mb-4">
+          <a
+            href={personalInfo.contact.github.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[--color-text-secondary] hover:text-[--color-accent-primary] transition-colors"
+            aria-label="GitHub"
+          >
+            <FaGithub size={20} />
+          </a>
+          <a
+            href={personalInfo.contact.linkedIn.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[--color-text-secondary] hover:text-[--color-accent-primary] transition-colors"
+            aria-label="LinkedIn"
+          >
+            <FaLinkedin size={20} />
+          </a>
+          <a
+            href={personalInfo.contact.email.url}
+            className="text-[--color-text-secondary] hover:text-[--color-accent-primary] transition-colors"
+            aria-label="Email"
+          >
+            <Mail size={20} />
+          </a>
+        </div>
 
-          <Stack direction="row" spacing={1}>
-            <IconButton
-              color="inherit"
-              aria-label="LinkedIn"
-              component="a"
-              href="https://linkedin.com/in/yogeshkrishnani"
-              target="_blank"
-              rel="noopener noreferrer"
-              size="small"
-            >
-              <LinkedInIcon fontSize="small" />
-            </IconButton>
+        {/* Attribution */}
+        <p className="text-sm text-[--color-text-secondary] mb-2">
+          Designed & Built by {personalInfo.name}
+        </p>
 
-            <IconButton
-              color="inherit"
-              aria-label="GitHub"
-              component="a"
-              href="https://github.com/yogeshkrishnani"
-              target="_blank"
-              rel="noopener noreferrer"
-              size="small"
-            >
-              <GitHubIcon fontSize="small" />
-            </IconButton>
-
-            <IconButton
-              color="inherit"
-              aria-label="Email"
-              component="a"
-              href="mailto:yogesh.h.krishnani@gmail.com"
-              size="small"
-            >
-              <EmailIcon fontSize="small" />
-            </IconButton>
-          </Stack>
-        </Box>
-
-        <Divider sx={{ my: 2 }} />
-
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          align="center"
-          sx={{ fontSize: '0.8rem' }}
-        >
-          © {new Date().getFullYear()} Yogesh Krishnani. All rights reserved.
-        </Typography>
-      </Container>
-    </Box>
+        {/* Copyright */}
+        <p className="text-xs text-[--color-text-secondary]">
+          © {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
+        </p>
+      </div>
+    </footer>
   );
 };

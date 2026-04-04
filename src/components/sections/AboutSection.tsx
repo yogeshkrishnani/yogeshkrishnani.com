@@ -1,104 +1,89 @@
-// src/components/sections/AboutSection.tsx
-import { Box, Typography, Paper } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+
+import { SectionHeading } from '@/components/common/SectionHeading';
+import { personalInfo } from '@/data/personal';
+
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4 },
+  },
+};
 
 export const AboutSection = () => {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
-    <Box
+    <section
       id="about"
-      component="section"
-      sx={{
-        py: 10,
-        scrollMarginTop: '80px', // Offset for sticky header
-        maxWidth: { xs: '100%', md: '85%' },
-        mx: 'auto',
-      }}
+      className="scroll-mt-20 py-24 md:py-32 max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.5 }}
-      >
-        <Typography variant="h3" component="h2" sx={{ mb: 1 }}>
-          About Me
-        </Typography>
+      <SectionHeading title="About Me" />
 
-        <Box
-          sx={{
-            width: '60px',
-            height: '4px',
-            backgroundColor: 'primary.main',
-            mb: 4,
-          }}
-        />
-
-        <Grid container spacing={4}>
-          <Grid size={{ xs: 12, md: 7 }}>
-            <Typography paragraph>
-              Hello! I'm Yogesh, a full-stack engineer building AI-native products at Alation —
-              where the goal is making enterprise data trustworthy and useful, for both humans and
-              AI systems.
-            </Typography>
-
-            <Typography paragraph>
-              I started as a frontend engineer in 2014 and have since expanded across the stack.
-              Today I work with React, TypeScript, Python, Go, and CI/CD — using AI tools (Claude,
-              Cursor, Copilot) daily to move faster and ship more reliably across the entire
-              codebase.
-            </Typography>
-
-            <Typography paragraph>
-              Outside of work, I build things that matter to me: a vaccine slot notifier used by
-              100,000+ people during India's COVID rush, and a WhatsApp stock analysis bot in Hindi
-              and Gujarati — because my dad understands markets but not English financial jargon.
-            </Typography>
-
-            <Typography>
-              When I'm not at the computer, I'm usually playing badminton or spending time with
-              family.
-            </Typography>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 5 }}>
-            <Paper
-              elevation={0}
-              sx={{
-                p: 3,
-                backgroundColor: 'background.default',
-                border: '1px solid',
-                borderColor: 'divider',
-              }}
+      <div className="flex flex-col md:flex-row gap-12 mt-8">
+        {/* Left (~60%) — Narrative */}
+        <motion.div
+          className="md:w-3/5"
+          variants={prefersReducedMotion ? undefined : container}
+          initial={prefersReducedMotion ? false : 'hidden'}
+          whileInView={prefersReducedMotion ? undefined : 'visible'}
+          viewport={{ once: true, margin: '-100px' }}
+        >
+          {personalInfo.aboutParagraphs.map((paragraph, index) => (
+            <motion.p
+              key={index}
+              variants={prefersReducedMotion ? undefined : item}
+              className="text-[--color-text-secondary] leading-[1.8] mb-6 last:mb-0"
             >
-              <Typography variant="h6" gutterBottom>
-                Quick Facts
-              </Typography>
+              {paragraph}
+            </motion.p>
+          ))}
+        </motion.div>
 
-              <Box component="ul" sx={{ pl: 2 }}>
-                <Typography component="li" sx={{ mb: 1 }}>
-                  Based in Ahmedabad, India
-                </Typography>
-                <Typography component="li" sx={{ mb: 1 }}>
-                  12+ years of engineering experience
-                </Typography>
-                <Typography component="li" sx={{ mb: 1 }}>
-                  Full-stack: React, TypeScript, Python, Go
-                </Typography>
-                <Typography component="li" sx={{ mb: 1 }}>
-                  AI-native workflow: Claude, Cursor, Copilot
-                </Typography>
-                <Typography component="li" sx={{ mb: 1 }}>
-                  Building data governance products at Alation
-                </Typography>
-                <Typography component="li">
-                  MCA from Gujarat University
-                </Typography>
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
-      </motion.div>
-    </Box>
+        {/* Right (~40%) — Quick Facts */}
+        <motion.div
+          className="md:w-2/5"
+          initial={prefersReducedMotion ? false : { opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: 0.6, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }
+          }
+        >
+          <div
+            className="rounded-2xl p-6 hover:shadow-lg transition-all duration-300"
+            style={{
+              backgroundColor: 'var(--color-bg-paper)',
+              border: '1px solid var(--color-divider)',
+              borderTop: '3px solid var(--color-accent-primary)',
+            }}
+          >
+            <h3 className="text-sm font-semibold text-[--color-accent-primary] uppercase tracking-wider mb-4">
+              Quick Facts
+            </h3>
+            <ul className="space-y-3">
+              {personalInfo.quickFacts.map((fact, index) => (
+                <li
+                  key={index}
+                  className="text-[--color-text-secondary] py-0.5 flex items-start gap-2"
+                >
+                  <span className="text-[--color-accent-primary] mt-1.5 text-xs">&#9679;</span>
+                  {fact}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 };

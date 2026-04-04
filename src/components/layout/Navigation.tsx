@@ -1,44 +1,18 @@
-// src/components/layout/Navigation.tsx
 import { useState, useEffect } from 'react';
 
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import MenuIcon from '@mui/icons-material/Menu';
-import {
-  AppBar,
-  Box,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Toolbar,
-  Typography,
-  Button,
-  useMediaQuery,
-  useTheme,
-  Container,
-  ListItemButton,
-  ListItemIcon,
-} from '@mui/material';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sun, Moon, Menu, X } from 'lucide-react';
+
+import { navigationLinks } from '@/data/navigation';
+import { personalInfo } from '@/data/personal';
 
 import { useSections, SectionId } from './Sections';
-import { useTheme as useAppTheme } from '../../context/ThemeContext';
-
-const navigationLinks = [
-  { name: 'About', id: 'about' },
-  { name: 'Experience', id: 'experience' },
-  { name: 'Skills', id: 'skills' },
-  { name: 'Projects', id: 'projects' },
-  { name: 'Contact', id: 'contact' },
-];
+import { useTheme } from '../../context/ThemeContext';
 
 export const Navigation = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const theme = useTheme();
-  const { mode, toggleTheme } = useAppTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { mode, toggleTheme } = useTheme();
   const { activeSection, setActiveSection } = useSections();
 
   useEffect(() => {
@@ -48,10 +22,6 @@ export const Navigation = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
 
   const scrollToSection = (sectionId: SectionId) => {
     const section = document.getElementById(sectionId);
@@ -63,190 +33,155 @@ export const Navigation = () => {
   };
 
   return (
-    <AppBar
-      position="fixed"
-      color="default"
-      elevation={0}
-      sx={{
-        transition: 'all 0.3s ease',
-        backdropFilter: scrolled ? 'blur(10px)' : 'none',
-        boxShadow: scrolled ? '0 2px 10px rgba(0,0,0,0.05)' : 'none',
-        width: '100%',
-      }}
+    <header
+      className={`fixed top-0 w-full z-40 transition-all duration-300 ${
+        scrolled
+          ? 'backdrop-blur-md border-b border-[--color-divider] bg-[--color-bg-default]/80'
+          : 'bg-transparent'
+      }`}
     >
-      <Container
-        maxWidth="xl"
-        sx={{
-          px: { xs: 4, sm: 6, md: 8 },
-          maxWidth: '1400px',
-        }}
-      >
-        <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
-          <Button
-            color="inherit"
-            onClick={() => scrollToSection('intro')}
-            sx={{
-              fontWeight: 700,
-              textDecoration: 'none',
-              color: 'text.primary',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            <Typography
-              variant="h6"
-              component="span"
-              sx={{ fontFamily: '"SF Mono", "Fira Code", monospace' }}
-            >
-              {'<YK/>'}
-            </Typography>
-          </Button>
-
-          {/* Navigation Links */}
-          {isMobile ? (
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="end"
-              onClick={handleDrawerToggle}
-            >
-              <MenuIcon />
-            </IconButton>
-          ) : (
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              {navigationLinks.map(item => (
-                <Button
-                  color="inherit"
-                  onClick={() => scrollToSection(item.id as SectionId)}
-                  key={item.id}
-                  sx={{
-                    mx: 1.5,
-                    color: activeSection === item.id ? 'primary.main' : 'text.secondary',
-                    position: 'relative',
-                    fontWeight: 500,
-                    '&::after': {
-                      content: '""',
-                      position: 'absolute',
-                      width: activeSection === item.id ? '100%' : '0%',
-                      height: '2px',
-                      bottom: -4,
-                      left: 0,
-                      backgroundColor: 'primary.main',
-                      transition: 'width 0.2s ease',
-                    },
-                    '&:hover': {
-                      color: 'primary.main',
-                      backgroundColor: 'transparent',
-                      '&::after': {
-                        width: '100%',
-                      },
-                    },
-                  }}
-                >
-                  {item.name}
-                </Button>
-              ))}
-
-              <IconButton
-                sx={{ ml: 2 }}
-                onClick={toggleTheme}
-                color="inherit"
-                aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
-              >
-                {mode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
-              </IconButton>
-
-              <Button
-                variant="outlined"
-                color="primary"
-                component="a"
-                href="/Yogesh_Krishnani_Resume.pdf"
-                target="_blank"
-                sx={{ ml: 2 }}
-              >
-                Resume
-              </Button>
-            </Box>
-          )}
-        </Toolbar>
-      </Container>
-      <Box component="nav">
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: { xs: 'block', md: 'none' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              borderRadius: 0,
-              width: 240,
-              boxShadow: 3,
-              background: theme => theme.palette.background.paper,
-            },
-          }}
+      <nav className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12 flex items-center justify-between h-16">
+        {/* Logo */}
+        <button
+          onClick={() => scrollToSection('intro')}
+          className="font-bold text-[--color-text-primary] tracking-[-0.02em] cursor-pointer bg-transparent border-none"
         >
-          <Box onClick={handleDrawerToggle} sx={{ width: '100%' }}>
-            <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
-              <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                Yogesh Krishnani
-              </Typography>
-            </Box>
+          <span className="text-lg font-mono">{'<YK/>'}</span>
+        </button>
 
-            <List sx={{ py: 0 }}>
-              {navigationLinks.map(item => (
-                <ListItem
-                  key={item.id}
-                  component="div"
-                  disablePadding
-                  sx={{
-                    borderBottom: 1,
-                    borderColor: 'divider',
-                  }}
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-1">
+          {navigationLinks.map(item => (
+            <button
+              key={item.id}
+              onClick={() => scrollToSection(item.id)}
+              className={`relative px-3 py-2 text-sm font-medium transition-colors cursor-pointer bg-transparent border-none ${
+                activeSection === item.id
+                  ? 'text-[--color-accent-primary]'
+                  : 'text-[--color-text-secondary] hover:text-[--color-accent-primary]'
+              }`}
+            >
+              {item.name}
+              {activeSection === item.id && (
+                <motion.div
+                  layoutId="nav-underline"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[--color-accent-primary]"
+                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                />
+              )}
+            </button>
+          ))}
+
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            className="ml-3 p-2 text-[--color-text-secondary] hover:text-[--color-accent-primary] transition-colors cursor-pointer bg-transparent border-none"
+            aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
+          >
+            {mode === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+          </button>
+
+          {/* Resume button */}
+          <a
+            href={personalInfo.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-3 px-4 py-1.5 text-sm font-medium border border-[--color-accent-primary] text-[--color-accent-primary] rounded-lg hover:opacity-80 transition-opacity"
+          >
+            Resume
+          </a>
+        </div>
+
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden p-2 text-[--color-text-primary] cursor-pointer bg-transparent border-none"
+          aria-label="Toggle menu"
+        >
+          <Menu size={24} />
+        </button>
+      </nav>
+
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              onClick={() => setMobileOpen(false)}
+            />
+
+            {/* Panel */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="fixed top-0 right-0 bottom-0 w-60 bg-[--color-bg-paper] z-50 shadow-xl md:hidden"
+            >
+              {/* Close button + Name */}
+              <div className="flex items-center justify-between p-4 border-b border-[--color-divider]">
+                <span className="font-semibold text-[--color-text-primary]">
+                  {personalInfo.name}
+                </span>
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="p-1 text-[--color-text-secondary] cursor-pointer bg-transparent border-none"
+                  aria-label="Close menu"
                 >
-                  <ListItemButton
-                    onClick={() => {
-                      scrollToSection(item.id as SectionId);
-                      handleDrawerToggle();
-                    }}
-                    sx={{
-                      py: 2,
-                      color: activeSection === item.id ? 'primary.main' : 'inherit',
-                    }}
-                  >
-                    <ListItemText
-                      primary={item.name}
-                      slotProps={{
-                        primary: {
-                          fontWeight: activeSection === item.id ? 600 : 400,
-                        },
-                      }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              ))}
+                  <X size={20} />
+                </button>
+              </div>
 
-              <ListItem
-                component="div"
-                disablePadding
-                sx={{
-                  borderBottom: 1,
-                  borderColor: 'divider',
-                }}
-              >
-                <ListItemButton onClick={toggleTheme} sx={{ py: 2 }}>
-                  <ListItemIcon sx={{ minWidth: 36 }}>
-                    {mode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
-                  </ListItemIcon>
-                  <ListItemText primary={`Toggle ${mode === 'light' ? 'Dark' : 'Light'} Mode`} />
-                </ListItemButton>
-              </ListItem>
-            </List>
-          </Box>
-        </Drawer>
-      </Box>
-    </AppBar>
+              {/* Nav links */}
+              <ul className="py-2">
+                {navigationLinks.map(item => (
+                  <li key={item.id}>
+                    <button
+                      onClick={() => scrollToSection(item.id)}
+                      className={`w-full text-left px-6 py-3 text-sm transition-colors cursor-pointer bg-transparent border-none ${
+                        activeSection === item.id
+                          ? 'text-[--color-accent-primary] font-semibold'
+                          : 'text-[--color-text-secondary] hover:text-[--color-accent-primary]'
+                      }`}
+                    >
+                      {item.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Theme toggle */}
+              <div className="px-6 py-3 border-t border-[--color-divider]">
+                <button
+                  onClick={toggleTheme}
+                  className="flex items-center gap-3 text-sm text-[--color-text-secondary] cursor-pointer bg-transparent border-none"
+                >
+                  {mode === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+                  <span>Toggle {mode === 'light' ? 'Dark' : 'Light'} Mode</span>
+                </button>
+              </div>
+
+              {/* Resume link */}
+              <div className="px-6 py-3">
+                <a
+                  href={personalInfo.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-center px-4 py-2 text-sm font-medium border border-[--color-accent-primary] text-[--color-accent-primary] rounded-lg hover:opacity-80 transition-opacity"
+                >
+                  Resume
+                </a>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </header>
   );
 };

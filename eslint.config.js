@@ -66,6 +66,7 @@ export default [
         },
       ],
       'import/no-duplicates': 'error',
+      'no-undef': 'off',
     },
   },
   {

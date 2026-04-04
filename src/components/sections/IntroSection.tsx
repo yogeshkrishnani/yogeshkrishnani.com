@@ -1,162 +1,182 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Box, Typography, Button, Stack } from '@mui/material';
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { ArrowRight, ChevronDown } from 'lucide-react';
+
+import { useTheme } from '@/context/ThemeContext';
+import { personalInfo } from '@/data/personal';
+
+const letterReveal = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.03 },
+  },
+};
+
+const letterItem = {
+  hidden: { opacity: 0, y: 80, rotateX: -90 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+const fadeSlide = (delay: number) => ({
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
+  },
+});
 
 export const IntroSection = () => {
-  const scrollToContact = () => {
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const prefersReducedMotion = useReducedMotion();
+  const { mode } = useTheme();
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+  const heroY = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
+
+  const nameLetters = personalInfo.name.split('');
 
   return (
-    <Box
+    <section
       id="intro"
-      component={motion.section}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      sx={{
-        minHeight: { xs: 'auto', md: '100vh' }, // Remove full-height requirement on mobile
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: { xs: 'flex-start', md: 'center' }, // Start from top on mobile
-        pt: { xs: 2, md: 0 }, // Much less padding on top for mobile
-        pb: { xs: 4, md: 0 },
-        px: { xs: 2, md: 0 }, // Add some horizontal padding on mobile
-        maxWidth: { xs: '100%', md: '85%' },
-        mx: 'auto',
-        alignItems: { xs: 'flex-start', md: 'center' }, // Left-align on mobile
-      }}
+      ref={sectionRef}
+      className="scroll-mt-20 min-h-screen flex flex-col justify-center relative overflow-hidden"
     >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          alignItems: 'center',
-          gap: { xs: 4, md: 5 },
-        }}
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-1/2 -right-1/2 w-full h-full rounded-full bg-[--color-accent-primary] opacity-[0.04] blur-[120px] animate-[float_15s_ease-in-out_infinite]" />
+        <div className="absolute -bottom-1/2 -left-1/2 w-full h-full rounded-full bg-[--color-accent-secondary] opacity-[0.04] blur-[120px] animate-[float_20s_ease-in-out_infinite_reverse]" />
+      </div>
+
+      <motion.div
+        className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12 w-full relative z-10 py-20"
+        style={
+          prefersReducedMotion ? undefined : { opacity: heroOpacity, scale: heroScale, y: heroY }
+        }
       >
-        <Box
-          component="img"
-          src="/yk_avatar.png"
-          alt="Yogesh Krishnani"
-          sx={{
-            width: { xs: 180, md: 220 },
-            height: 'auto',
-            objectFit: 'cover',
-            borderRadius: '50%',
-            border: '2px solid',
-            borderColor: 'transparent',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-            mr: { md: 5 },
-          }}
-        />
+        {/* Greeting — small, above the name */}
+        <motion.div
+          className="flex items-center gap-4 mb-8"
+          variants={prefersReducedMotion ? undefined : fadeSlide(0)}
+          initial={prefersReducedMotion ? false : 'hidden'}
+          animate={prefersReducedMotion ? false : 'visible'}
+        >
+          <img
+            src={personalInfo.avatarUrl}
+            alt={personalInfo.name}
+            className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover ring-2 ring-[--color-accent-primary]/20"
+          />
+          <span className="text-sm tracking-[0.2em] uppercase text-[--color-text-secondary] font-medium">
+            {personalInfo.greeting}
+          </span>
+        </motion.div>
 
-        <Box>
-          <Typography
-            variant="h6"
-            component={motion.div}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            color="primary"
-            sx={{ mb: 1, fontWeight: 500 }}
-          >
-            Hi, my name is
-          </Typography>
-
-          <Typography
-            variant="h1"
-            component={motion.div}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            sx={{
-              fontSize: { xs: '2.5rem', md: '4.5rem' },
-              lineHeight: 1.1,
-              mb: 2,
-              color: 'text.primary',
-            }}
-          >
-            Yogesh Krishnani.
-          </Typography>
-
-          <Typography
-            variant="h2"
-            component={motion.div}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            color="text.secondary"
-            sx={{
-              fontSize: { xs: '1.8rem', md: '2.8rem' },
-              lineHeight: 1.2,
-              mb: 3,
-            }}
-          >
-            I build software for the agentic era.
-          </Typography>
-
-          <Typography
-            variant="body1"
-            component={motion.div}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            color="text.secondary"
-            sx={{
-              maxWidth: '600px',
-              mb: 4,
-              fontSize: '1.1rem',
-            }}
-          >
-            I'm a full-stack engineer at{' '}
-            <Box component="span" sx={{ color: 'primary.main', fontWeight: 500 }}>
-              Alation
-            </Box>
-            , building AI-native software that helps enterprises govern and understand their data.
-            Shipping across React, TypeScript, Python, Go, and CI/CD — with AI as a core part of
-            how I work.
-          </Typography>
-
-          <Stack
-            component={motion.div}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            direction="row"
-            spacing={2}
-          >
-            <Button
-              variant="outlined"
-              color="primary"
-              size="large"
-              onClick={scrollToContact}
-              endIcon={<ArrowForwardIcon />}
-              sx={{
-                borderWidth: 2,
-                '&:hover': {
-                  borderWidth: 2,
-                },
-              }}
+        {/* Giant name — letter by letter reveal */}
+        <motion.h1
+          className="text-[clamp(3rem,8vw,7rem)] font-bold leading-[1.1] tracking-tight mb-8 perspective-[1000px]"
+          variants={prefersReducedMotion ? undefined : letterReveal}
+          initial={prefersReducedMotion ? false : 'hidden'}
+          animate={prefersReducedMotion ? false : 'visible'}
+        >
+          {nameLetters.map((letter, i) => (
+            <motion.span
+              key={i}
+              variants={prefersReducedMotion ? undefined : letterItem}
+              className="inline-block text-[--color-text-primary]"
+              style={{ display: letter === ' ' ? 'inline' : 'inline-block' }}
             >
-              Get In Touch
-            </Button>
-            <Button
-              variant="text"
-              color="primary"
-              size="large"
-              component="a"
-              href="/Yogesh_Krishnani_Resume.pdf"
-              target="_blank"
-            >
-              View Resume
-            </Button>
-          </Stack>
-        </Box>
-      </Box>
-    </Box>
+              {letter === ' ' ? '\u00A0' : letter}
+            </motion.span>
+          ))}
+          <motion.span
+            variants={prefersReducedMotion ? undefined : letterItem}
+            className="inline-block text-[--color-accent-primary]"
+          >
+            .
+          </motion.span>
+        </motion.h1>
+
+        {/* Tagline */}
+        <motion.p
+          className="text-xl md:text-3xl text-[--color-text-secondary] mb-6 max-w-2xl font-light leading-relaxed"
+          variants={prefersReducedMotion ? undefined : fadeSlide(0.6)}
+          initial={prefersReducedMotion ? false : 'hidden'}
+          animate={prefersReducedMotion ? false : 'visible'}
+        >
+          {personalInfo.tagline}
+        </motion.p>
+
+        {/* Bio */}
+        <motion.p
+          className="text-base md:text-lg text-[--color-text-secondary]/80 mb-12 max-w-xl leading-relaxed"
+          variants={prefersReducedMotion ? undefined : fadeSlide(0.8)}
+          initial={prefersReducedMotion ? false : 'hidden'}
+          animate={prefersReducedMotion ? false : 'visible'}
+        >
+          {personalInfo.bio}
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div
+          className="flex flex-wrap gap-4"
+          variants={prefersReducedMotion ? undefined : fadeSlide(1.0)}
+          initial={prefersReducedMotion ? false : 'hidden'}
+          animate={prefersReducedMotion ? false : 'visible'}
+        >
+          <button
+            onClick={() =>
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+            }
+            className="group px-8 py-4 rounded-full font-semibold text-base inline-flex items-center gap-2 transition-all duration-300 cursor-pointer border-none hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98]"
+            style={{
+              backgroundColor: mode === 'dark' ? '#e0e0e0' : '#1a1a1a',
+              color: mode === 'dark' ? '#121212' : '#ffffff',
+            }}
+          >
+            Get In Touch
+            <ArrowRight
+              size={18}
+              className="group-hover:translate-x-1 transition-transform duration-300"
+            />
+          </button>
+          <a
+            href={personalInfo.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-4 rounded-full font-semibold text-base border-2 border-[--color-text-primary]/20 text-[--color-text-primary] hover:border-[--color-accent-primary] hover:text-[--color-accent-primary] transition-all duration-300 inline-flex items-center hover:scale-[1.02] active:scale-[0.98]"
+          >
+            View Resume
+          </a>
+        </motion.div>
+      </motion.div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.8 }}
+      >
+        <span className="text-xs tracking-widest uppercase text-[--color-text-secondary]/50">
+          Scroll
+        </span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <ChevronDown size={20} className="text-[--color-text-secondary]/40" />
+        </motion.div>
+      </motion.div>
+    </section>
   );
 };
