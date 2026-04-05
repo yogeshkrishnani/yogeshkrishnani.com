@@ -23,6 +23,21 @@ export const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock scroll when drawer is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
+
   const scrollToSection = (sectionId: SectionId) => {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -33,86 +48,87 @@ export const Navigation = () => {
   };
 
   return (
-    <header
-      className={`fixed top-0 w-full z-40 transition-all duration-300 ${
-        scrolled
-          ? 'backdrop-blur-md border-b border-[--color-divider] bg-[--color-bg-default]/80'
-          : 'bg-transparent'
-      }`}
-    >
-      <nav className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12 flex items-center justify-between h-16">
-        {/* Logo */}
-        <button
-          onClick={() => scrollToSection('intro')}
-          className="font-bold text-[--color-text-primary] tracking-[-0.02em] cursor-pointer bg-transparent border-none"
-        >
-          <span className="text-lg font-mono">{'<YK/>'}</span>
-        </button>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-1">
-          {navigationLinks.map(item => (
-            <button
-              key={item.id}
-              onClick={() => scrollToSection(item.id)}
-              className={`relative px-3 py-2 text-sm font-medium transition-colors cursor-pointer bg-transparent border-none ${
-                activeSection === item.id
-                  ? 'text-[--color-accent-primary]'
-                  : 'text-[--color-text-secondary] hover:text-[--color-accent-primary]'
-              }`}
-            >
-              {item.name}
-              {activeSection === item.id && (
-                <motion.div
-                  layoutId="nav-underline"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[--color-accent-primary]"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                />
-              )}
-            </button>
-          ))}
-
-          {/* Theme toggle */}
+    <>
+      {/* Header bar */}
+      <header
+        className={`fixed top-0 w-full z-40 transition-all duration-300 ${
+          scrolled ? 'backdrop-blur-md bg-[--color-bg-default]/80' : 'bg-transparent'
+        }`}
+      >
+        <nav className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12 flex items-center justify-between h-16">
+          {/* Logo */}
           <button
-            onClick={toggleTheme}
-            className="ml-3 p-2 text-[--color-text-secondary] hover:text-[--color-accent-primary] transition-colors cursor-pointer bg-transparent border-none"
-            aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
+            onClick={() => scrollToSection('intro')}
+            className="font-bold text-[--color-text-primary] tracking-[-0.02em] cursor-pointer bg-transparent border-none"
           >
-            {mode === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            <span className="text-lg font-mono">{'<YK/>'}</span>
           </button>
 
-          {/* Resume button */}
-          <a
-            href={personalInfo.resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-3 px-4 py-1.5 text-sm font-medium border border-[--color-accent-primary] text-[--color-accent-primary] rounded-lg hover:opacity-80 transition-opacity"
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-1">
+            {navigationLinks.map(item => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={`relative px-3 py-2 text-sm font-medium transition-colors cursor-pointer bg-transparent border-none ${
+                  activeSection === item.id
+                    ? 'text-[--color-accent-primary]'
+                    : 'text-[--color-text-secondary] hover:text-[--color-accent-primary]'
+                }`}
+              >
+                {item.name}
+                {activeSection === item.id && (
+                  <motion.div
+                    layoutId="nav-underline"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[--color-accent-primary]"
+                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </button>
+            ))}
+
+            {/* Theme toggle */}
+            <button
+              onClick={toggleTheme}
+              className="ml-3 p-2 text-[--color-text-secondary] hover:text-[--color-accent-primary] transition-colors cursor-pointer bg-transparent border-none"
+              aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
+            >
+              {mode === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            </button>
+
+            {/* Resume button */}
+            <a
+              href={personalInfo.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-3 px-4 py-1.5 text-sm font-medium border border-[--color-accent-primary] text-[--color-accent-primary] rounded-lg hover:opacity-80 transition-opacity"
+            >
+              Resume
+            </a>
+          </div>
+
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden p-2 text-[--color-text-primary] cursor-pointer bg-transparent border-none"
+            aria-label="Toggle menu"
           >
-            Resume
-          </a>
-        </div>
+            <Menu size={24} />
+          </button>
+        </nav>
+      </header>
 
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 text-[--color-text-primary] cursor-pointer bg-transparent border-none"
-          aria-label="Toggle menu"
-        >
-          <Menu size={24} />
-        </button>
-      </nav>
-
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer — outside header so z-index is independent */}
       <AnimatePresence>
         {mobileOpen && (
           <>
-            {/* Overlay */}
+            {/* Overlay — covers everything including the header */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              className="fixed inset-0 bg-black/50 z-50 md:hidden"
               onClick={() => setMobileOpen(false)}
             />
 
@@ -122,10 +138,11 @@ export const Navigation = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="fixed top-0 right-0 bottom-0 w-60 bg-[--color-bg-paper] z-50 shadow-xl md:hidden"
+              className="fixed top-0 right-0 w-60 h-full min-h-screen z-[60] shadow-xl md:hidden overflow-y-auto"
+              style={{ backgroundColor: 'var(--color-bg-paper)' }}
             >
-              {/* Close button + Name */}
-              <div className="flex items-center justify-between p-4 border-b border-[--color-divider]">
+              {/* Close button + Name — matches nav bar h-16 */}
+              <div className="flex items-center justify-between px-4 h-16">
                 <span className="font-semibold text-[--color-text-primary]">
                   {personalInfo.name}
                 </span>
@@ -182,6 +199,6 @@ export const Navigation = () => {
           </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 };

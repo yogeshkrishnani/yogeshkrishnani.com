@@ -56,6 +56,7 @@ export const ContactSection = () => {
     <section
       id="contact"
       className="scroll-mt-20 py-32 md:py-40 max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12"
+      style={{ paddingBottom: '64px' }}
     >
       <motion.div
         className="text-center"
@@ -109,14 +110,9 @@ export const ContactSection = () => {
                 size={24}
                 className="text-[--color-text-secondary] group-hover:text-[--color-accent-primary] transition-colors duration-300"
               />
-              <div className="text-center">
-                <span className="block text-sm font-medium text-[--color-text-primary] break-all">
-                  {contactItem.display}
-                </span>
-                <span className="text-xs text-[--color-text-secondary] group-hover:text-[--color-accent-primary] transition-colors">
-                  {contactItem.label}
-                </span>
-              </div>
+              <span className="text-xs font-medium text-[--color-text-secondary] group-hover:text-[--color-accent-primary] transition-colors">
+                {contactItem.label}
+              </span>
             </motion.a>
           ))}
         </motion.div>

@@ -44,13 +44,13 @@ export const IntroSection = () => {
   const heroScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
   const heroY = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
 
-  const nameLetters = personalInfo.name.split('');
+  const nameWords = personalInfo.name.split(' ');
 
   return (
     <section
       id="intro"
       ref={sectionRef}
-      className="scroll-mt-20 min-h-screen flex flex-col justify-center relative overflow-hidden"
+      className="scroll-mt-20 min-h-screen flex flex-col justify-center relative overflow-hidden -mt-16 pt-16"
     >
       {/* Animated gradient background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -88,22 +88,19 @@ export const IntroSection = () => {
           initial={prefersReducedMotion ? false : 'hidden'}
           animate={prefersReducedMotion ? false : 'visible'}
         >
-          {nameLetters.map((letter, i) => (
-            <motion.span
-              key={i}
-              variants={prefersReducedMotion ? undefined : letterItem}
-              className="inline-block text-[--color-text-primary]"
-              style={{ display: letter === ' ' ? 'inline' : 'inline-block' }}
-            >
-              {letter === ' ' ? '\u00A0' : letter}
-            </motion.span>
+          {nameWords.map((word, wi) => (
+            <span key={wi} className="inline-block whitespace-nowrap mr-[0.3em]">
+              {word.split('').map((letter, li) => (
+                <motion.span
+                  key={`${wi}-${li}`}
+                  variants={prefersReducedMotion ? undefined : letterItem}
+                  className="inline-block text-[--color-text-primary]"
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </span>
           ))}
-          <motion.span
-            variants={prefersReducedMotion ? undefined : letterItem}
-            className="inline-block text-[--color-accent-primary]"
-          >
-            .
-          </motion.span>
         </motion.h1>
 
         {/* Tagline */}
