@@ -1,29 +1,53 @@
-# Yogesh Krishnani - Portfolio Website
+# Yogesh Krishnani - Portfolio
 
-This is the source code for my personal portfolio website, showcasing my experience and skills as a Senior Software Engineer.
+Personal portfolio website — [yogeshkrishnani.com](https://yogeshkrishnani.com)
 
-## 🚀 Live Site
+## Tech Stack
 
-Visit [yogeshkrishnani.com](https://yogeshkrishnani.com) to see my portfolio.
+- **React 19** + **TypeScript** — UI framework
+- **Tailwind CSS v4** — styling via utility classes + CSS variables
+- **Framer Motion** — scroll-linked animations, section reveals, nav indicator
+- **Vite** — build tooling with `@tailwindcss/vite` plugin
+- **Vercel** — hosting + analytics
 
-## 💼 About Me
+## Getting Started
 
-I'm a Senior Software Engineer specializing in building user-friendly enterprise applications that solve real-world problems. My expertise includes:
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # production build
+npm run lint       # eslint
+npm run format     # prettier
+```
 
-- Establishing UI standards and optimizing frontend infrastructure
-- Building scalable and maintainable platforms
-- Ensuring accessibility compliance (WCAG & Section 508)
-- Implementing internationalization and localization
+Requires Node >= 20.
 
-## 🛠️ Technical Skills Showcased
+## Project Structure
 
-- **Frontend Development**: React, TypeScript, JavaScript
-- **UI Frameworks**: Material UI
-- **Performance Optimization**: Frontend infrastructure for speed and stability
+```
+src/
+├── data/           # Typed content (personal, experiences, projects, skills, navigation)
+├── components/
+│   ├── layout/     # Navigation, Footer, Sections provider
+│   ├── sections/   # IntroSection, About, Experience, Skills, Projects, Contact
+│   └── common/     # SectionHeading, ScrollProgress, BackToTop
+├── context/        # ThemeContext (light/dark toggle)
+├── utils/          # scrollUtils
+├── App.tsx
+├── main.tsx
+└── index.css       # Tailwind base + theme variables + dark mode overrides
+```
 
-## 📞 Contact
+## Features
 
-Feel free to reach out for opportunities or questions:
+- Light/dark mode with system preference detection
+- Letter-by-letter hero name reveal animation
+- Vertical timeline (experience) with scroll-linked progress
+- Responsive: mobile drawer nav with scroll lock, stacked layouts
+- `prefers-reduced-motion` support across all animated components
+- Inter font via Google Fonts
+
+## Contact
 
 - Email: yogesh.h.krishnani@gmail.com
 - LinkedIn: [linkedin.com/in/yogeshkrishnani](https://linkedin.com/in/yogeshkrishnani)
@@ -31,4 +55,4 @@ Feel free to reach out for opportunities or questions:
 
 ---
 
-© 2025 Yogesh Krishnani. All rights reserved.
+© 2026 Yogesh Krishnani
